@@ -18,7 +18,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     public static final String ID_ID = "ID";
 
     public DataBaseHelper(@Nullable Context context) {
-        super(context, "notes.db", null, 1);
+        super(context, "notes.db", null, 2);
     }
 
     @Override
@@ -30,10 +30,22 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 
+
     }
+    public boolean deleteNote(NoteModel noteModel) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        String delnote ="DELETE  FROM " + NOTTY + " WHERE " + ID_ID + " = " + noteModel.getId();
+        Cursor cursor = db.rawQuery(delnote, null);
+        if (cursor.moveToFirst()){
+            return true;
+        }
+
+        else {
+        return false;
+    }}
 
     public boolean addNote(NoteModel noteModel) {
-        SQLiteDatabase db = this.getWritableDatabase();
+        SQLiteDatabase db = this.getReadableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put(TITLE_TITLE, noteModel.getTitle());
         contentValues.put(NOTE_NOTE, noteModel.getNote());

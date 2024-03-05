@@ -1,21 +1,31 @@
 <!-- res/layout/layy.xml -->
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="100dp"
+    android:orientation="vertical"
     android:padding="16dp">
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/deletenotebutton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="2dp"
+        android:clickable="true"
+        android:src="@android:drawable/ic_menu_delete" />
 
     <TextView
         android:id="@+id/textViewUpper"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="18sp"
-        android:textStyle="bold"/>
+        android:textSize="24sp"
+        android:textStyle="bold" />
 
     <TextView
         android:id="@+id/textViewLower"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="37dp"
         android:layout_below="@id/textViewUpper"
-        android:layout_marginTop="8dp"/>
+        android:layout_marginTop="5dp"
+        android:textSize="16sp" />
 </RelativeLayout>

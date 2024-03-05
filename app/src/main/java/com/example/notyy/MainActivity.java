@@ -29,6 +29,9 @@ public class MainActivity extends AppCompatActivity {
     FloatingActionButton ub;
     ArrayAdapter noteAdapter;
     DataBaseHelper dataBaseHelper;
+    SQLiteDatabase database;
+    FloatingActionButton deletenotebutton;
+
 
  static ArrayList<String> stringList = new ArrayList<>();
 
@@ -45,7 +48,8 @@ public class MainActivity extends AppCompatActivity {
         fab = findViewById(R.id.addnewnote);
         ub = findViewById(R.id.updatebutton);
         dataBaseHelper = new DataBaseHelper(MainActivity.this);
-         showNotesOnListView();
+        deletenotebutton = findViewById(R.id.deletenotebutton);
+         //showNotesOnListView();
 
         fab.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
@@ -74,12 +78,33 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
+        // Open your SQLite database (replace "YourDatabaseName" with your actual database name)
+        database = openOrCreateDatabase("notes.db", MODE_PRIVATE, null);
+
+        // Replace "YourTableName" with the actual name of your table
+        Cursor cursor = database.rawQuery("SELECT ID as _id, * FROM notty", null);
+
+        // Create and set the custom adapter
+        CustomAdapter adapter = new CustomAdapter(this, cursor);
+        listView.setAdapter(adapter);
+
     }
 
-    private void showNotesOnListView() {
-        List<NoteModel> everynote = dataBaseHelper.getlistnote() ;
+//    private void showNotesOnListView() {
+//        List<NoteModel> everynote = dataBaseHelper.getlistnote() ;
+//
+//        noteAdapter = new ArrayAdapter<NoteModel>(MainActivity.this, android.R.layout.simple_list_item_1,dataBaseHelper.getlistnote());
+//        listView.setAdapter(noteAdapter);
+//    }
+    protected void onDestroy() {
+        super.onDestroy();
+        // Close the database when the activity is destroyed
+        if (database != null) {
+            database.close();
+        }
+    }
 
-        noteAdapter = new ArrayAdapter<NoteModel>(MainActivity.this, android.R.layout.simple_list_item_1,dataBaseHelper.getlistnote());
-        listView.setAdapter(noteAdapter);
+    protected void deleteNoteClick(){
+
     }
 }
