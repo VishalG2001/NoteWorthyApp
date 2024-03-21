@@ -6,15 +6,6 @@
     android:padding="16dp"
     android:background="@drawable/roundcorner">
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/deletenotebutton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_marginEnd="2dp"
-        android:clickable="true"
-        android:src="@android:drawable/ic_menu_delete" />
-
     <TextView
         android:id="@+id/textViewUpper"
         android:layout_width="wrap_content"
@@ -29,4 +20,12 @@
         android:layout_below="@id/textViewUpper"
         android:layout_marginTop="5dp"
         android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="300dp"
+        android:layout_marginTop="50dp"
+        android:text="date" />
 </RelativeLayout>

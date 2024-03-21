@@ -27,18 +27,26 @@ Button button;
         txtview2 = findViewById(R.id.notenote);
         button = findViewById(R.id.savenote);
 
+
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                String check1 = txtview.getText().toString();
+                String check2 = txtview2.getText().toString();
+                if (check1.length()==0 && check2.length()==0){
+                    Intent send = new Intent(MainActivity2.this, MainActivity.class);
+                    startActivity(send);
+                    Toast.makeText(MainActivity2.this, "Nothing to Save", Toast.LENGTH_SHORT).show();
+                }else{
                 NoteModel noteModel = new NoteModel(1,txtview.getText().toString(),txtview2.getText().toString());
                 Intent send = new Intent(MainActivity2.this,MainActivity.class);
                 startActivity(send);
                 Toast.makeText(MainActivity2.this, "note added", Toast.LENGTH_SHORT).show();
                 DataBaseHelper dataBaseHelper = new DataBaseHelper(MainActivity2.this);
                 boolean success = dataBaseHelper.addNote(noteModel);
-                Toast.makeText(MainActivity2.this, "Success= "+success, Toast.LENGTH_SHORT).show();
+                //Toast.makeText(MainActivity2.this, "Success= "+success, Toast.LENGTH_SHORT).show();
 
-            }
+            }}
 
 
 

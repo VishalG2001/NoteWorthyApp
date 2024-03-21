@@ -8,11 +8,10 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 //import android.widget.Adapter;
-import android.provider.ContactsContract;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.view.View;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
+import android.widget.CursorAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -30,7 +29,6 @@ public class MainActivity extends AppCompatActivity {
     ArrayAdapter noteAdapter;
     DataBaseHelper dataBaseHelper;
     SQLiteDatabase database;
-    FloatingActionButton deletenotebutton;
 
 
  static ArrayList<String> stringList = new ArrayList<>();
@@ -48,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
         fab = findViewById(R.id.addnewnote);
         ub = findViewById(R.id.updatebutton);
         dataBaseHelper = new DataBaseHelper(MainActivity.this);
-        deletenotebutton = findViewById(R.id.deletenotebutton);
+
          //showNotesOnListView();
 
         fab.setOnLongClickListener(new View.OnLongClickListener() {
@@ -68,6 +66,29 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
+        listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                // Retrieve the cursor associated with the adapter
+                Cursor cursor = (Cursor) parent.getItemAtPosition(position);
+
+                // Extract the data from the cursor and create a NoteModel object
+                int id2 = cursor.getInt(cursor.getColumnIndexOrThrow("ID"));
+                String title = cursor.getString(cursor.getColumnIndexOrThrow("TITLE_TITLE"));
+                String content = cursor.getString(cursor.getColumnIndexOrThrow("NOTE_NOTE"));
+
+                NoteModel clickedNote = new NoteModel(id2 , title, content); // Assuming appropriate constructor
+
+                // Now you have the NoteModel object associated with the clicked item
+                // Proceed with your delete operation using this object
+                dataBaseHelper.deleteNote(clickedNote);
+                //showNotesOnListView();
+//                Cursor newCursor = (Cursor) dataBaseHelper.getlistnote(); // Assuming getAllNotes() returns a new cursor with updated data
+//                ((CursorAdapter) listView.getAdapter()).swapCursor(newCursor);
+                return true;
+            }
+        });
+
         ub.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -90,12 +111,12 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-//    private void showNotesOnListView() {
-//        List<NoteModel> everynote = dataBaseHelper.getlistnote() ;
-//
-//        noteAdapter = new ArrayAdapter<NoteModel>(MainActivity.this, android.R.layout.simple_list_item_1,dataBaseHelper.getlistnote());
-//        listView.setAdapter(noteAdapter);
-//    }
+    private void showNotesOnListView() {
+        List<NoteModel> everynote = dataBaseHelper.getlistnote() ;
+
+        noteAdapter = new ArrayAdapter<NoteModel>(MainActivity.this, android.R.layout.simple_list_item_1,dataBaseHelper.getlistnote());
+        listView.setAdapter(noteAdapter);
+    }
     protected void onDestroy() {
         super.onDestroy();
         // Close the database when the activity is destroyed
