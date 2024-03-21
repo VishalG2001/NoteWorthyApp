@@ -14,6 +14,7 @@ import android.view.View;
 import android.widget.CursorAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.PopupMenu;
 import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -33,8 +34,6 @@ public class MainActivity extends AppCompatActivity {
 
  static ArrayList<String> stringList = new ArrayList<>();
 
-
-    //String notes[] = {"Vishal", "Kunal vishLjefihs gsjkjb ebrh fgdsbjb sjnjdr jfekbr rehrbbr gd", "Neha", "Karishma", "manju"};
 
     @SuppressLint(value = {"MissingInflatedId", "WrongViewCast"})
     @Override
@@ -82,9 +81,12 @@ public class MainActivity extends AppCompatActivity {
                 // Now you have the NoteModel object associated with the clicked item
                 // Proceed with your delete operation using this object
                 dataBaseHelper.deleteNote(clickedNote);
+//                Intent esehi = new Intent(MainActivity.this,MainActivity.class);
+//                startActivity(esehi);
+
                 //showNotesOnListView();
-//                Cursor newCursor = (Cursor) dataBaseHelper.getlistnote(); // Assuming getAllNotes() returns a new cursor with updated data
-//                ((CursorAdapter) listView.getAdapter()).swapCursor(newCursor);
+                Cursor newCursor = (Cursor) dataBaseHelper.getlistnote(); // Assuming getAllNotes() returns a new cursor with updated data
+                ((CursorAdapter) listView.getAdapter()).swapCursor(newCursor);
                 return true;
             }
         });
@@ -113,9 +115,10 @@ public class MainActivity extends AppCompatActivity {
 
     private void showNotesOnListView() {
         List<NoteModel> everynote = dataBaseHelper.getlistnote() ;
+        CustomAdapter customAdapter = new CustomAdapter();
 
-        noteAdapter = new ArrayAdapter<NoteModel>(MainActivity.this, android.R.layout.simple_list_item_1,dataBaseHelper.getlistnote());
-        listView.setAdapter(noteAdapter);
+        noteAdapter = new ArrayAdapter<NoteModel>(MainActivity.this, R.layout.layy,dataBaseHelper.getlistnote());
+        listView.setAdapter(customAdapter);
     }
     protected void onDestroy() {
         super.onDestroy();

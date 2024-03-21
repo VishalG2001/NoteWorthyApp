@@ -14,6 +14,10 @@ public class CustomAdapter extends CursorAdapter {
         super(context, cursor, 0);
     }
 
+    public CustomAdapter() {
+        super(null,null);
+    }
+
     @Override
     public View newView(Context context, Cursor cursor, ViewGroup parent) {
         return LayoutInflater.from(context).inflate(R.layout.layy, parent, false);
@@ -24,7 +28,6 @@ public class CustomAdapter extends CursorAdapter {
         TextView textViewColumn1 = view.findViewById(R.id.textViewUpper);
         TextView textViewColumn2 = view.findViewById(R.id.textViewLower);
 
-        // Assuming that "column1" and "column2" are the column names in your database
         String column1Value = cursor.getString(cursor.getColumnIndexOrThrow("TITLE_TITLE"));
         String column2Value = cursor.getString(cursor.getColumnIndexOrThrow("NOTE_NOTE"));
 
